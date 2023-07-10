@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Azure Confidential Compute &mdash; Secure Signer 0.1 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Installation" href="../install.html" />
+    <link rel="prev" title="Hardware setup" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Secure Signer
+          </a>
+              <div class="version">
+                0.1.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Hardware setup</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Azure Confidential Compute</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#setting-up-an-sgx-instance">Setting up an SGX instance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#increasing-vm-disk-space">Increasing VM disk space</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ssh-tunneling-to-secure-signer">SSH Tunneling to Secure-Signer</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../running.html">Running secure-signer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developing/index.html">Developing secure-signer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../validator/index.html">Becoming a validator</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Secure Signer</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Hardware setup</a></li>
+      <li class="breadcrumb-item active">Azure Confidential Compute</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/hardware/azure.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="azure-confidential-compute">
+<h1>Azure Confidential Compute<a class="headerlink" href="#azure-confidential-compute" title="Permalink to this heading"></a></h1>
+<section id="setting-up-an-sgx-instance">
+<h2>Setting up an SGX instance<a class="headerlink" href="#setting-up-an-sgx-instance" title="Permalink to this heading"></a></h2>
+<p>Secure-Signer has been developed and tested on Microsoft Azure. The goal of this guide is to expedite setting up your own Azure server. Stay tuned for more information on setting up Secure-Signer at home or on other cloud providers.</p>
+<img alt="../_images/azure_1.png" src="../_images/azure_1.png" />
+<p>Select <code class="docutils literal notranslate"><span class="pre">Create</span> <span class="pre">a</span> <span class="pre">resource</span></code>.</p>
+<hr class="docutils" />
+<img alt="../_images/azure_2.png" src="../_images/azure_2.png" />
+<p>Select <code class="docutils literal notranslate"><span class="pre">Create</span></code> to start setting up a VM.</p>
+<hr class="docutils" />
+<img alt="../_images/azure_3.png" src="../_images/azure_3.png" />
+<p>Ensure that the Image is set to <code class="docutils literal notranslate"><span class="pre">Ubuntu</span> <span class="pre">Server</span> <span class="pre">20.04</span> <span class="pre">LTS</span> <span class="pre">-x64</span> <span class="pre">Gen2</span></code>.</p>
+<hr class="docutils" />
+<img alt="../_images/azure_4.png" src="../_images/azure_4.png" />
+<p>Select a VM size from the <code class="docutils literal notranslate"><span class="pre">DC-Series</span></code>. The smallest (and cheapest) VM with 4 GiB of RAM is sufficient to run Secure-Signer; however, it is recommended to use a larger VM if you plan to run the execution client and consensus client on this server. For this demo, we will use Secure-Signer as a truly remote-signing tool and choose the 4 GiB VM (our execution client and consensus client will be run externally on a different server).</p>
+<hr class="docutils" />
+<img alt="../_images/azure_5.png" src="../_images/azure_5.png" />
+<p>Set SSH credentials according to your needs. In this case we will generate a new SSH private key called <code class="docutils literal notranslate"><span class="pre">Secure-Signer-key</span></code> that we can use to sign into this server.</p>
+<hr class="docutils" />
+<img alt="../_images/azure_6.png" src="../_images/azure_6.png" />
+<p>Add any additional configurations that fit your needs. Then select <code class="docutils literal notranslate"><span class="pre">Review</span> <span class="pre">and</span> <span class="pre">Create</span></code>. Verify the OS image and VM size are correct. Then <code class="docutils literal notranslate"><span class="pre">Create</span></code> the VM.</p>
+<hr class="docutils" />
+<img alt="../_images/azure_7.png" src="../_images/azure_7.png" />
+<p>Securely store the SSH private key, for example in the <code class="docutils literal notranslate"><span class="pre">~/.ssh/</span></code> directory.</p>
+<hr class="docutils" />
+<img alt="../_images/azure_8.png" src="../_images/azure_8.png" />
+<p>Once deployment finishes, select <code class="docutils literal notranslate"><span class="pre">Go</span> <span class="pre">to</span> <span class="pre">resource</span></code>.</p>
+</section>
+<hr class="docutils" />
+<section id="increasing-vm-disk-space">
+<h2>Increasing VM disk space<a class="headerlink" href="#increasing-vm-disk-space" title="Permalink to this heading"></a></h2>
+<p>&gt; This is optional if Secure-Signer is being used as a standalone remote-signing tool. If you plan to run the consensus client and execution client on this same VM, we recommend following these steps to increase the size of the disk.</p>
+<img alt="../_images/azure_9.png" src="../_images/azure_9.png" />
+<p>To adjust the disk size, first stop the VM.</p>
+<img alt="../_images/azure_10.png" src="../_images/azure_10.png" />
+<p>Select <code class="docutils literal notranslate"><span class="pre">Stop</span></code></p>
+<hr class="docutils" />
+<img alt="../_images/azure_11.png" src="../_images/azure_11.png" />
+<p>Confirm <code class="docutils literal notranslate"><span class="pre">Yes</span></code> and wait for confirmation that is has been stopped.</p>
+<hr class="docutils" />
+<img alt="../_images/azure_12.png" src="../_images/azure_12.png" />
+<p>Navigate to the <code class="docutils literal notranslate"><span class="pre">Disks</span></code> tabs on under <code class="docutils literal notranslate"><span class="pre">Settings</span></code> on the left-hand side.</p>
+<hr class="docutils" />
+<img alt="../_images/azure_13.png" src="../_images/azure_13.png" />
+<p>Select your <code class="docutils literal notranslate"><span class="pre">Disk</span> <span class="pre">name</span></code> in this case <code class="docutils literal notranslate"><span class="pre">Secure-Signer_OsDisk_1_04e04e...</span></code></p>
+<hr class="docutils" />
+<img alt="../_images/azure_14.png" src="../_images/azure_14.png" />
+<p>Select <code class="docutils literal notranslate"><span class="pre">Size</span> <span class="pre">+</span> <span class="pre">performance</span></code> under <code class="docutils literal notranslate"><span class="pre">Settings</span></code> on the left-hand side.</p>
+<hr class="docutils" />
+<img alt="../_images/azure_15.png" src="../_images/azure_15.png" />
+<p>Select a disk size and click <code class="docutils literal notranslate"><span class="pre">Save</span></code>. In this case, a 1024 GiB disk is sufficient to store the required state for the execution client.</p>
+<hr class="docutils" />
+<img alt="../_images/azure_16.png" src="../_images/azure_16.png" />
+<img alt="../_images/azure_17.png" src="../_images/azure_17.png" />
+<p>Navigate back to the overview page and <code class="docutils literal notranslate"><span class="pre">Start</span></code> the VM again.</p>
+<hr class="docutils" />
+<p>In a terminal run the following, substituting your server’s IP and the path to your SSH private key:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ssh<span class="w"> </span>-i<span class="w"> </span>&lt;path_to_ssh_key&gt;<span class="w"> </span>ss@XX.XX.XXX.XXX
+</pre></div>
+</div>
+<img alt="../_images/azure_18.png" src="../_images/azure_18.png" />
+<p>Congratulations! At this point you are ready to proceed to the [next section](../installation) to install the dependencies for Secure-Signer.</p>
+</section>
+<section id="ssh-tunneling-to-secure-signer">
+<h2>SSH Tunneling to Secure-Signer<a class="headerlink" href="#ssh-tunneling-to-secure-signer" title="Permalink to this heading"></a></h2>
+<p>It’s possible to run Secure-Signer on the remote Azure server while running your consensus client and execution client locally. Assuming Secure-Signer is installed following the [these steps](../installation) and it is running on port 9003, you can SSH tunnel by running:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ssh<span class="w"> </span>-i<span class="w"> </span>&lt;path_to_ssh_key&gt;<span class="w"> </span>-N<span class="w"> </span>-L<span class="w"> </span><span class="m">9003</span>:localhost:9003<span class="w"> </span>ss@XX.XX.XXX.XXX
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Hardware setup" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../install.html" class="btn btn-neutral float-right" title="Installation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

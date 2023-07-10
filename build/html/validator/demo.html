@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Demo usage &mdash; Secure Signer 0.1 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Real world usage" href="real_world.html" />
+    <link rel="prev" title="Prerequisites" href="prerequisites.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Secure Signer
+          </a>
+              <div class="version">
+                0.1.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../hardware/index.html">Hardware setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../running.html">Running secure-signer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developing/index.html">Developing secure-signer</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Becoming a validator</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="prerequisites.html">Prerequisites</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Demo usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#importing-a-validator-key">Importing a validator key</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#copy-files-into-docker">Copy files into Docker</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#import-keystore-and-slash-db">Import keystore and slash db</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#breaking-down-what-happened">Breaking down what happened</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#attempt-to-sign-a-slashable-block">Attempt to sign a slashable block</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cleanup">Cleanup</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="real_world.html">Real world usage</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Secure Signer</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Becoming a validator</a></li>
+      <li class="breadcrumb-item active">Demo usage</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/validator/demo.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="demo-usage">
+<h1>Demo usage<a class="headerlink" href="#demo-usage" title="Permalink to this heading"></a></h1>
+<section id="importing-a-validator-key">
+<h2>Importing a validator key<a class="headerlink" href="#importing-a-validator-key" title="Permalink to this heading"></a></h2>
+<p>Secure-Signer allows users to import validator keystore JSON files conforming
+to version 4 of the <a class="reference external" href="https://eips.ethlibrary.io/eip-2335.html">EIP-2355</a> specs. While importing the keystore, you may
+optionally include a slash protection database JSON file conforming to <a class="reference external" href="https://eips.ethereum.org/EIPS/eip-3076">EIP-3076</a>
+so Secure-Signer knows your previously signed material
+(see the <a class="reference external" href="https://pufferfinance.github.io/secure-signer-api-docs/redoc-static.html#tag/Keymanager/operation/KEYMANAGER_IMPORT">API docs</a> for more information).</p>
+<p>With the recent Shapella fork allowing withdrawals, we highly recommend
+withdrawing existing validators and generating fresh BLS keys within Secure-Signer,
+described <a class="reference internal" href="real_world.html#valkey"><span class="std std-ref">in this section</span></a>. This will maximally protect against slashable
+offenses as there will only be one copy of the BLS private key.</p>
+<p>For the purpose of this demo we have generated three files:
+dummy-v4-keystore.json, dummy-password.txt dummy-slash-protection-db.json.</p>
+<p>First we can verify this is a V4 keystore:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>cat<span class="w"> </span>dummy-v4-keystore.json
+</pre></div>
+</div>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;crypto&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;kdf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;function&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;scrypt&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;dklen&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">32</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;n&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">262144</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;p&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;r&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;salt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;d4e56740f876aef8c010b86a40d5f56745a118d0906a34e69aec8c0db1cb8fa3&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;checksum&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;function&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sha256&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span>
+<span class="w">            </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;d2217fe5f3e9a1e34581ef8a78f7c9928e436d36dacc5e846690a5581e8ea484&quot;</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;cipher&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;function&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;aes-128-ctr&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;iv&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;264daa3f303d7259501c93d997d84fe6&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;06ae90d55fe0a6e9c5c3bc5b170827b2e5cce3929ed3f116c2811e6366dfe20f&quot;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;This is a test keystore that uses scrypt to secure the secret.&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;pubkey&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;9612d7a727c9d0a22e185a1c768478dfe919cada9266988cb32359c11f2b7b27f4ae4040902382ae2910c15e2b420d07&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;m/12381/60/3141592653/589793238&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;uuid&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1d85ae20-35c5-4611-98e8-aa14a633906f&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>This key has previously signed a block with slot number 1559 and an
+attestation with source and target epochs of 1234 and 1238.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>cat<span class="w"> </span>dummy-slash-protection-db.json
+</pre></div>
+</div>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;metadata&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;interchange_format_version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;5&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;genesis_validators_root&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0x04700007fabc8282644aed6d1c7c9e21d38a03a0c4ba193f3afe428824b3a673&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;data&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;pubkey&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0x9612d7a727c9d0a22e185a1c768478dfe919cada9266988cb32359c11f2b7b27f4ae4040902382ae2910c15e2b420d07&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;signed_blocks&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;slot&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1559&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;signing_root&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0x4ff6f743a43f3b4f95350831aeaf0a122a1a392922c45d804280284a69eb850b&quot;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="p">],</span>
+<span class="w">        </span><span class="nt">&quot;signed_attestations&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;source_epoch&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1234&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;target_epoch&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1238&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;signing_root&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0x587d6a4f59a58fe24f406e0502413e77fe1babddee641fda30034ed37ecc884d&quot;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="p">]</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="copy-files-into-docker">
+<h2>Copy files into Docker<a class="headerlink" href="#copy-files-into-docker" title="Permalink to this heading"></a></h2>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>cp<span class="w"> </span>dummy-v4-keystore.json<span class="w"> </span>secure_signer_container:/home
+docker<span class="w"> </span>cp<span class="w"> </span>dummy-slash-protection-db.json<span class="w"> </span>secure_signer_container:/home
+docker<span class="w"> </span>cp<span class="w"> </span>dummy-password.txt<span class="w"> </span>secure_signer_container:/home
+</pre></div>
+</div>
+<p>Verify the files were copied:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-w<span class="w"> </span>/home<span class="w"> </span>secure_signer_container<span class="w"> </span>/bin/bash<span class="w"> </span>-c<span class="w">  </span><span class="s2">&quot;ls&quot;</span>
+</pre></div>
+</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>client
+conf
+dummy-password.txt
+dummy-slash-protection-db.json
+dummy-v4-keystore.json
+</pre></div>
+</div>
+</section>
+<section id="import-keystore-and-slash-db">
+<h2>Import keystore and slash db<a class="headerlink" href="#import-keystore-and-slash-db" title="Permalink to this heading"></a></h2>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-w<span class="w"> </span>/home<span class="w"> </span>secure_signer_container<span class="w"> </span>/bin/bash<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;./client --import --keystore-path dummy-v4-keystore.json --password-path dummy-password.txt --slash-protection-path dummy-slash-protection-db.json --mrenclave dd4678fdcaac0c2b823c1b46438ba15a8995edc95819f35bb2c2486ab29abe01&quot;</span>
+</pre></div>
+</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>- Connected to Secure-Signer on port 9001
+</pre></div>
+</div>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-w<span class="w"> </span>/home<span class="w"> </span>secure_signer_container<span class="w"> </span>/bin/bash<span class="w"> </span>-c<span class="w">  </span><span class="s2">&quot;cat ss_out/import_response&quot;</span>
+</pre></div>
+</div>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="nt">&quot;data&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;imported&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0x9612d7a727c9d0a22e185a1c768478dfe919cada9266988cb32359c11f2b7b27f4ae4040902382ae2910c15e2b420d07&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="breaking-down-what-happened">
+<h2>Breaking down what happened<a class="headerlink" href="#breaking-down-what-happened" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>We specified the paths to our keystore, slash protection, and password files (paths are relative to <code class="docutils literal notranslate"><span class="pre">/home/client</span></code> inside the container).</p></li>
+<li><p>We supplied the <code class="docutils literal notranslate"><span class="pre">--mrenclave</span></code> flag with the value obtained <a class="reference internal" href="prerequisites.html#mrenclave"><span class="std std-ref">here</span></a>.</p></li>
+<li><p>The Client requested Secure-Signer to generate a fresh ephemeral ETH (SECP256K1) keypair and commit to it while performing remote attestation.</p></li>
+<li><p>The Client verified the remote attestation evidence, gaining trust that this SGX instance is indeed running Secure-Signer. The verification process required that the report’s <code class="docutils literal notranslate"><span class="pre">MRENCLAVE</span></code> value matched the expected, the evidence was signed by Intel, and the ETH public key was committed to in the report.</p></li>
+<li><p>The Client encrypted the contents of <code class="docutils literal notranslate"><span class="pre">dummy-password.txt</span></code> with the ETH public key using <a class="reference external" href="https://en.wikipedia.org/wiki/Integrated_Encryption_Scheme">ECIES</a>.</p></li>
+<li><p>The Client then imported the keystore, encrypted password, and slash protection into Secure-Signer via the <a class="reference external" href="https://pufferfinance.github.io/secure-signer-api-docs/redoc-static.html#tag/Keymanager/operation/KEYMANAGER_IMPORT">/eth/v1/keystores</a> API.</p></li>
+<li><p>Secure-Signer decrypted the keystore password and saved the validator key to the enclave’s encrypted memory.</p></li>
+</ul>
+</section>
+<section id="attempt-to-sign-a-slashable-block">
+<h2>Attempt to sign a slashable block<a class="headerlink" href="#attempt-to-sign-a-slashable-block" title="Permalink to this heading"></a></h2>
+<p>At this point, Secure-Signer is loaded with our validator key and slash protection database. We can verify that Secure-Signer prevents slashing by sending a block proposal with a non-increasing slot of <code class="docutils literal notranslate"><span class="pre">1337</span></code>. Note, the following should not be attempted on real keys and is solely for demonstration purposes. In practice, all signing material (minus deposits and withdrawals) passed to Secure-Signer should originate from your consensus client.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>localhost:9001/api/v1/eth2/sign/0x9612d7a727c9d0a22e185a1c768478dfe919cada9266988cb32359c11f2b7b27f4ae4040902382ae2910c15e2b420d07<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">&quot;type&quot;: &quot;BLOCK_V2&quot;,</span>
+<span class="s1">&quot;fork_info&quot;:{</span>
+<span class="s1">    &quot;fork&quot;:{</span>
+<span class="s1">        &quot;previous_version&quot;:&quot;0x80000070&quot;,</span>
+<span class="s1">        &quot;current_version&quot;:&quot;0x80000071&quot;,</span>
+<span class="s1">        &quot;epoch&quot;:&quot;750&quot;</span>
+<span class="s1">    },</span>
+<span class="s1">    &quot;genesis_validators_root&quot;:&quot;0x2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a&quot;</span>
+<span class="s1">},</span>
+<span class="s1">&quot;signingRoot&quot;: &quot;0x2ebfc2d70944cc2fbff6d67c6d9cbb043d7fbe0a660d248b6e666ce110af418a&quot;,</span>
+<span class="s1">&quot;beacon_block&quot;: {</span>
+<span class="s1">    &quot;version&quot;: &quot;CAPELLA&quot;,</span>
+<span class="s1">    &quot;block_header&quot;: {</span>
+<span class="s1">        &quot;slot&quot;: &quot;1337&quot;,</span>
+<span class="s1">        &quot;proposer_index&quot;: &quot;0&quot;,</span>
+<span class="s1">        &quot;parent_root&quot;:&quot;0x0000000000000000000000000000000000000000000000000000000000000000&quot;,</span>
+<span class="s1">        &quot;state_root&quot;:&quot;0x0000000000000000000000000000000000000000000000000000000000000000&quot;,</span>
+<span class="s1">        &quot;body_root&quot;:&quot;0xcd7c49966ebe72b1214e6d4733adf6bf06935c5fbc3b3ad08e84e3085428b82f&quot;</span>
+<span class="s1">    }</span>
+<span class="s1">}</span>
+<span class="s1">}&#39;</span>
+</pre></div>
+</div>
+<p>Secure-Signer prevents signing with the response:</p>
+<p><code class="docutils literal notranslate"><span class="pre">{&quot;error&quot;:&quot;Signing</span> <span class="pre">operation</span> <span class="pre">failed</span> <span class="pre">due</span> <span class="pre">to</span> <span class="pre">slashing</span> <span class="pre">protection</span> <span class="pre">rules&quot;}</span></code></p>
+</section>
+<section id="cleanup">
+<h2>Cleanup<a class="headerlink" href="#cleanup" title="Permalink to this heading"></a></h2>
+<p>We can now delete the files we copied into the container:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-w<span class="w"> </span>/home<span class="w"> </span>secure_signer_container<span class="w"> </span>/bin/bash<span class="w"> </span>-c<span class="w">  </span><span class="s2">&quot;rm dummy-password.txt dummy-v4-keystore.json dummy-slash-protection-db.json&quot;</span>
+</pre></div>
+</div>
+<p>Note that if Secure-Signer is running remotely (e.g., on the cloud),
+we could have alternatively run the Client locally.
+This way we are not required to copy keystores or
+passwords onto a potentially untrusted server.</p>
+<p>This concludes the guide on how to import keys into Secure-Signer.
+The next section will document the simpler and more
+secure method of generating validator keys inside Secure-Signer.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="prerequisites.html" class="btn btn-neutral float-left" title="Prerequisites" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="real_world.html" class="btn btn-neutral float-right" title="Real world usage" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

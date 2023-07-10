@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Install build dependencies &mdash; Secure Signer 0.1 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Becoming a validator" href="../validator/index.html" />
+    <link rel="prev" title="Developing secure-signer" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Secure Signer
+          </a>
+              <div class="version">
+                0.1.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../hardware/index.html">Hardware setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../running.html">Running secure-signer</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Developing secure-signer</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html#building-secure-signer">Building secure-signer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#running-secure-signer">Running secure-signer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#running-tests">Running tests</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#docker-releases">Docker releases</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Install build dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#clone-secure-signer">Clone secure-signer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#building-the-container">Building the container</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../validator/index.html">Becoming a validator</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Secure Signer</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Developing secure-signer</a></li>
+      <li class="breadcrumb-item active">Install build dependencies</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/developing/docker.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <p>The purpose of this page is to document the process for building new docker
+images for secure-signer to be used by developers and validators.</p>
+<p>We assume that the SGX driver and Docker dependencies have been
+installed following the instructions <a class="reference internal" href="../install.html"><span class="doc">here.</span></a></p>
+<section id="install-build-dependencies">
+<h1>Install build dependencies<a class="headerlink" href="#install-build-dependencies" title="Permalink to this heading"></a></h1>
+<p>Secure-Signer has several build dependencies. Run the following command:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span><span class="nv">DEBIAN_FRONTEND</span><span class="o">=</span>noninteractive<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>--no-install-recommends<span class="w"> </span>libcurl4-openssl-dev<span class="w"> </span>libssl-dev<span class="w"> </span>libprotobuf-dev<span class="w"> </span>libfuse-dev<span class="w"> </span>autoconf<span class="w"> </span>automake<span class="w"> </span>make<span class="w"> </span>cmake<span class="w"> </span>libtool<span class="w"> </span>gdb<span class="w"> </span>python<span class="w"> </span>jq<span class="w"> </span>ca-certificates<span class="w"> </span>gnupg<span class="w"> </span>python3-dev<span class="w"> </span>wget<span class="w"> </span>python3.8-venv<span class="w"> </span>build-essential<span class="w"> </span>ocaml
+</pre></div>
+</div>
+</section>
+<section id="clone-secure-signer">
+<h1>Clone secure-signer<a class="headerlink" href="#clone-secure-signer" title="Permalink to this heading"></a></h1>
+<p>For the remainder of this guide, we assume the repo is cloned into the home (<code class="docutils literal notranslate"><span class="pre">~</span></code>) directory.</p>
+</section>
+<section id="building-the-container">
+<h1>Building the container<a class="headerlink" href="#building-the-container" title="Permalink to this heading"></a></h1>
+<p>The <code class="docutils literal notranslate"><span class="pre">run_secure_signer.sh</span></code> is a convenience script for working with
+the development and release Docker containers.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>./run_secure_signer.sh<span class="w"> </span>-h
+</pre></div>
+</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Run container images secure_signer_image in background.
+usage: run_secure_signer.sh [OPTION]...
+    -p &lt;Secure-Signer Server port&gt; default 9001.
+    -d run in development mode.
+    -r run in release mode.
+    -a attach to the specified image without running.
+    -f force remove existing container.
+    -h &lt;usage&gt; usage help
+</pre></div>
+</div>
+<p>Run the following command to launch, attach to the development container,
+and install the correct Rust version. The script will mount
+the ~/secure-signer repo as a volume so any development work done inside
+the container will persist.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>./run_secure_signer.sh<span class="w"> </span>-d<span class="w"> </span>-a
+</pre></div>
+</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>secure_signer_container_dev not found, launching now...
+Start Secure-Signer server on port 9001...
+Unable to find image &#39;occlum/occlum:0.29.1-ubuntu20.04&#39; locally
+0.29.1-ubuntu20.04: Pulling from occlum/occlum
+fb0b3276a519: Pull complete
+d99b42c9728d: Pull complete
+74b74e144ba8: Pull complete
+e966edf39081: Pull complete
+0494b33f9566: Pull complete
+4f4fb700ef54: Pull complete
+9e819f8f491e: Pull complete
+77da17ee521a: Pull complete
+4287aaf1a461: Pull complete
+045d8386501c: Pull complete
+2c050312405e: Pull complete
+9ddebcb08677: Pull complete
+5fe71afa18d3: Pull complete
+b0dde9b3e61d: Pull complete
+d2fa00b1a4fd: Pull complete
+3b267634335f: Pull complete
+785554322247: Pull complete
+1a33b2bf8917: Pull complete
+4e75289cdfaa: Pull complete
+0357ef5f921c: Pull complete
+ac2932fe67d2: Pull complete
+802f60431b8d: Pull complete
+2c649add70af: Pull complete
+Digest: sha256:de5388e0609d15a4d7797083d69b11d8dcc364c4bc3b9f897922b5e74363cff6
+Status: Downloaded newer image for occlum/occlum:0.29.1-ubuntu20.04
+2e19c8fc0b246105909a405be6408377644adc5fd73df1dbe6293b8f8d43076e
+info: syncing channel updates for &#39;1.64.0-x86_64-unknown-linux-gnu&#39;
+warning: Signature verification failed for &#39;https://static.rust-lang.org/dist/channel-rust-1.64.0.toml&#39;
+info: latest update on 2022-09-22, rust version 1.64.0 (a55dd71d5 2022-09-19)
+info: downloading component &#39;cargo&#39;
+info: downloading component &#39;clippy&#39;
+info: downloading component &#39;rust-docs&#39;
+info: downloading component &#39;rust-std&#39;
+info: downloading component &#39;rustc&#39;
+info: downloading component &#39;rustfmt&#39;
+info: installing component &#39;cargo&#39;
+info: installing component &#39;clippy&#39;
+info: installing component &#39;rust-docs&#39;
+18.8 MiB /  18.8 MiB (100 %)  12.2 MiB/s in  1s ETA:  0s
+info: installing component &#39;rust-std&#39;
+27.4 MiB /  27.4 MiB (100 %)  16.8 MiB/s in  1s ETA:  0s
+info: installing component &#39;rustc&#39;
+54.2 MiB /  54.2 MiB (100 %)  18.8 MiB/s in  2s ETA:  0s
+info: installing component &#39;rustfmt&#39;
+
+1.64.0-x86_64-unknown-linux-gnu installed - rustc 1.64.0 (a55dd71d5 2022-09-19)
+
+info: checking for self-updates
+info: downloading self-update
+info: using existing install for &#39;1.64.0-x86_64-unknown-linux-gnu&#39;
+info: default toolchain set to &#39;1.64.0-x86_64-unknown-linux-gnu&#39;
+
+1.64.0-x86_64-unknown-linux-gnu unchanged - rustc 1.64.0 (a55dd71d5 2022-09-19)
+
+info: downloading component &#39;rust-std&#39; for &#39;x86_64-unknown-linux-musl&#39;
+info: installing component &#39;rust-std&#39; for &#39;x86_64-unknown-linux-musl&#39;
+40.6 MiB /  40.6 MiB (100 %)  16.9 MiB/s in  2s ETA:  0s
+root@Portal-Dev:~#
+</pre></div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Developing secure-signer" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../validator/index.html" class="btn btn-neutral float-right" title="Becoming a validator" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

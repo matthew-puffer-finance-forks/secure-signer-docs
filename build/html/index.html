@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Protect yourself from slashable offenses &mdash; Secure Signer 0.1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Hardware setup" href="hardware/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="#" class="icon icon-home">
+            Secure Signer
+          </a>
+              <div class="version">
+                0.1.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="hardware/index.html">Hardware setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="running.html">Running secure-signer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developing/index.html">Developing secure-signer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="validator/index.html">Becoming a validator</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">Secure Signer</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Protect yourself from slashable offenses</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="protect-yourself-from-slashable-offenses">
+<h1>Protect yourself from slashable offenses<a class="headerlink" href="#protect-yourself-from-slashable-offenses" title="Permalink to this heading"></a></h1>
+<p>Secure-signer is a Rust binary that runs inside special CPU-cages called ‘enclaves.’ Secure-signer is designed to interface with Ethereum consensus clients to help prevent slashable offenses.</p>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h2>
+<p>Secure-signer can either run in simulated mode or directly on real hardware. When its running on real hardware it will use the ‘SGX’ feature of Intel CPUs for its enclave support. Running this software requires some complex dependencies. We’ve therefore made a <a class="reference external" href="https://www.docker.com/">docker</a> file which is the recommended way to run secure-signer.</p>
+<p>The Docker file automatically maps ports and still allows for secure-signer to use real hardware features of the CPU without prohibitive overhead. The work flow for developers using the Docker file involves opening their Docker VM in the VS Code plugin <a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers">Dev Containers</a>. From there they can edit code in the VM directly and run their changes using our shell scripts.</p>
+<p>The rest of the docs are dedicated towards exploring that process.</p>
+</section>
+<section id="contents">
+<h2>Contents<a class="headerlink" href="#contents" title="Permalink to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="hardware/index.html">Hardware setup</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="hardware/azure.html">Azure Confidential Compute</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="hardware/azure.html#setting-up-an-sgx-instance">Setting up an SGX instance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hardware/azure.html#increasing-vm-disk-space">Increasing VM disk space</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hardware/azure.html#ssh-tunneling-to-secure-signer">SSH Tunneling to Secure-Signer</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="install.html#installing-docker">Installing Docker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="install.html#installing-sgx-drivers">Installing SGX drivers</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="running.html">Running secure-signer</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="running.html#start-the-docker-container">Start the Docker container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="running.html#verify-that-the-container-is-running">Verify that the container is running</a></li>
+<li class="toctree-l2"><a class="reference internal" href="running.html#attach-to-the-container">Attach to the container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="running.html#run-secure-signer">Run Secure-signer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="running.html#run-using-docker-exec">Run using Docker exec</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="developing/index.html">Developing secure-signer</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="developing/index.html#building-secure-signer">Building secure-signer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developing/index.html#running-secure-signer">Running secure-signer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developing/index.html#running-tests">Running tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developing/index.html#docker-releases">Docker releases</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="developing/docker.html">Install build dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="developing/docker.html#clone-secure-signer">Clone secure-signer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="developing/docker.html#building-the-container">Building the container</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="validator/index.html">Becoming a validator</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="validator/prerequisites.html">Prerequisites</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="validator/prerequisites.html#prepare-a-volume">Prepare a volume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="validator/prerequisites.html#setup-the-docker-container">Setup the Docker container</a></li>
+<li class="toctree-l3"><a class="reference internal" href="validator/prerequisites.html#getting-secure-signer-enclave-measurements">Getting Secure-Signer enclave measurements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="validator/prerequisites.html#client-cli-usage">Client CLI usage</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="validator/demo.html">Demo usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="validator/demo.html#importing-a-validator-key">Importing a validator key</a></li>
+<li class="toctree-l3"><a class="reference internal" href="validator/demo.html#copy-files-into-docker">Copy files into Docker</a></li>
+<li class="toctree-l3"><a class="reference internal" href="validator/demo.html#import-keystore-and-slash-db">Import keystore and slash db</a></li>
+<li class="toctree-l3"><a class="reference internal" href="validator/demo.html#breaking-down-what-happened">Breaking down what happened</a></li>
+<li class="toctree-l3"><a class="reference internal" href="validator/demo.html#attempt-to-sign-a-slashable-block">Attempt to sign a slashable block</a></li>
+<li class="toctree-l3"><a class="reference internal" href="validator/demo.html#cleanup">Cleanup</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="validator/real_world.html">Real world usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="validator/real_world.html#generating-validator-keys">Generating validator keys</a></li>
+<li class="toctree-l3"><a class="reference internal" href="validator/real_world.html#breaking-down-what-happened">Breaking down what happened</a></li>
+<li class="toctree-l3"><a class="reference internal" href="validator/real_world.html#listing-keys">Listing Keys</a></li>
+<li class="toctree-l3"><a class="reference internal" href="validator/real_world.html#registering-your-validator">Registering your validator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="validator/real_world.html#exiting-a-validator">Exiting a validator</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="hardware/index.html" class="btn btn-neutral float-right" title="Hardware setup" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
